@@ -1,0 +1,7 @@
+CREATE OR REPLACE TRIGGER valida_cnpj
+  BEFORE INSERT OR UPDATE OF cnpj ON cliente FOR EACH ROW
+BEGIN
+  IF (:NEW.cnpj IS NOT NULL) AND (VERIFICA_CNPJ(:NEW.cnpj) = 'F') THEN
+    RAISE_APPLICATION_ERROR(-20056,('O cnpj '||:NEW.cnpj||' inserido é inválido'));
+  END IF;
+END;

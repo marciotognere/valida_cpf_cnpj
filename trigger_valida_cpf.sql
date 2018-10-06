@@ -1,0 +1,7 @@
+CREATE OR REPLACE TRIGGER valida_cpf
+  BEFORE INSERT OR UPDATE OF cpf ON cliente FOR EACH ROW
+BEGIN
+  IF (:NEW.cpf IS NOT NULL) AND (VERIFICA_CPF(:NEW.cpf) = 'F')  THEN
+    RAISE_APPLICATION_ERROR(-20055,('O cpf '||:NEW.cpf||' inserido é inválido'));
+  END IF;
+END;
